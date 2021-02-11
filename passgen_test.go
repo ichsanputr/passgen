@@ -20,5 +20,5 @@ import (
 // }
 
 func TestMake(t *testing.T){
-	fmt.Println(Make(4,true,true,false,false))
+	fmt.Println(Make(2,true,false,true,false))
 }

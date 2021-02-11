@@ -8,23 +8,13 @@ import (
 
 var(
 	password string
-	ex string
-	slice = []string{}
-	lower = []rune("abcdefghijklmnopqrstuvwxyz")
-	upper = []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-	number = []rune("0123456789")
-	symbol = []rune("!@#$%^&*()_+-=}{}[]/?>.,<''`~")
-	all = []rune(string(lower)+string(upper)+string(number)+string(symbol))
-	lower1 = []rune(string(lower)+string(upper))
-	lower2 = []rune(string(lower)+string(number))
-	lower3 = []rune(string(lower)+string(symbol))
-	lower4 = []rune(string(lower)+string(upper)+string(number))
-	lower5 = []rune(string(lower)+string(upper)+string(symbol))
-	lower6 = []rune(string(lower)+string(number)+string(symbol))
-	upper1 = []rune(string(upper)+string(number))
-	upper2 = []rune(string(upper)+string(symbol))
-	upper3 = []rune(string(upper)+string(number)+string(symbol))
-	number1 = []rune(string(number)+string(symbol))
+	myrune []rune
+	// all = []rune(string(lower)+string(upper)+string(number)+string(symbol))	
+	// lower6 = []rune(string(lower)+string(number)+string(symbol))
+	// upper1 = []rune(string(upper)+string(number))
+	// upper2 = []rune(string(upper)+string(symbol))
+	// upper3 = []rune(string(upper)+string(number)+string(symbol))
+	// number1 = []rune(string(number)+string(symbol))
 )
 
 func init(){
@@ -36,22 +26,21 @@ func Scramble(r []rune,n int) {
 
 	x := string(r)
 
-	for i := 0; i <= n; i++{
+	for i := 0; i < n; i++{
 		a := rand.Intn(len(r))
-		if strings.Contains(ex,string(x[a])) == true {
+		if strings.Contains(password,string(x[a])) == true {
 			continue
 		}
-		ex += string(x[a])
+		password += string(x[a])
 	}
-
-
 }
 
 func Lowercase(n int) string {
 	var data = make([]rune, n)
+	myrune = []rune("abcdefghijklmnopqrstuvwxyz")
 
 	for i := range data{
-		data[i] = lower[rand.Intn(len(lower))] //rand.Intn for random int in 0-maks(n)
+		data[i] = myrune[rand.Intn(len(myrune))] //rand.Intn for random int in 0-maks(n)
 	}
 
 	return string(data)
@@ -59,9 +48,10 @@ func Lowercase(n int) string {
 
 func Uppercase(n int) string {
 	var data = make([]rune, n)
+	myrune = []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
 	for i := range data{
-		data[i] = upper[rand.Intn(len(upper))] 
+		data[i] = myrune[rand.Intn(len(myrune))] 
 	}
 
 	return string(data)
@@ -69,9 +59,10 @@ func Uppercase(n int) string {
 
 func Numbers(n int) string {
 	var data = make([]rune, n)
+	myrune = []rune("0123456789")
 
 	for i := range data{
-		data[i] = number[rand.Intn(len(number))] 
+		data[i] = myrune[rand.Intn(len(myrune))] 
 	}
 
 	return string(data)	
@@ -79,12 +70,45 @@ func Numbers(n int) string {
 
 func Symbols(n int) string {
 	var data = make([]rune, n)
+	myrune = []rune("!@#$%^&*()_+-=}{}[]/?>.,<''`~")
 
 	for i := range data{
-		data[i] = symbol[rand.Intn(len(symbol))] 
+		data[i] = myrune[rand.Intn(len(myrune))] 
 	}
 
 	return string(data)	
+}
+
+func OptionLower(Length int,LowerCase bool,UpperCase bool,Number bool,Symbol bool){
+	if LowerCase == true && UpperCase == true && Number == false && Symbol == false{
+		myrune = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+		Scramble(myrune,Length)
+	}
+
+	if LowerCase == true && UpperCase == false && Number == true && Symbol == false {
+		myrune = []rune("abcdefghijklmnopqrstuvwxy123456789")
+		Scramble(myrune,Length)
+	}
+
+	if LowerCase == true && UpperCase == false && Number == false && Symbol == true {
+		myrune = []rune("abcdefghijklmnopqrstuvwxy!@#$%^&*()_+-=}{}[]/?>.,<''`~")
+		Scramble(myrune,Length)
+	}
+	
+	if LowerCase == true && UpperCase == true && Number == true && Symbol == false {
+		myrune = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789")
+		Scramble(myrune,Length)
+	}
+
+	if LowerCase == true && UpperCase == true && Number == false && Symbol == true {
+		myrune = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=}{}[]/?>.,<''`~")
+		Scramble(myrune,Length)
+	}
+
+	if LowerCase == true && UpperCase == false && Number == true && Symbol == true {
+		myrune = []rune("abcdefghijklmnopqrstuvwxyz123456789!@#$%^&*()_+-=}{}[]/?>.,<''`~")
+		Scramble(myrune,Length)
+	}
 }
 
 func Make(Length int,LowerCase bool,UpperCase bool,Number bool,Symbol bool) string {
@@ -99,10 +123,7 @@ func Make(Length int,LowerCase bool,UpperCase bool,Number bool,Symbol bool) stri
 		password = Symbols(Length)
 	}
 
-	if LowerCase == true && UpperCase == true && Number == false && Symbol == false{
-		Scramble(lower1,5)
-		password = ex
-	}
+	OptionLower(Length,LowerCase,UpperCase,Number,Symbol)
 
 	return password
 }
