@@ -24,12 +24,31 @@ func init() {
 
 func Scramble(n int, r ...[]rune) {
 	s := float64(n / len(r))
+	// var x int
 
+	// switch n{
+	// case 1:
+
+	// }
+
+	// membagi rune ke ex secara rata
 	for _, v := range r {
+		// n == genap
 		if n%2 == 0 {
-			for i := 1; i <= n/len(r); i++ {
-				ex += string(v[rand.Intn(len(v))])
+			if n % len(r) == 1{
+			   // for 8,3 & 10,4 & 6,4
+				for i := 0; i < n/len(r); i++ {
+					ex += string(v[rand.Intn(len(v))])
+				}
+			}else if n % len(r) == 0{
+				// for 2,2 & 4,4 & 4,2 & 6,3 & 12,3
+				for i := 0; i < n/len(r); i++ {
+					ex += string(v[rand.Intn(len(v))])
+				}
+			}else if n < len(r){
+
 			}
+		// n == ganjil 
 		} else {
 			for i := 1; i <= int(math.Round(s)); i++ {
 				ex += string(v[rand.Intn(len(v))])
@@ -37,6 +56,7 @@ func Scramble(n int, r ...[]rune) {
 		}
 	}
 
+	// rand ex & fill password
 	for i := 0; i < len(ex); i++ {
 		a := rand.Intn(len(ex))
 		if strings.Contains(password, string(ex[a])) == true {
@@ -110,6 +130,10 @@ func OptionLower(Length int, LowerCase bool, UpperCase bool, Number bool, Symbol
 
 	if LowerCase == true && UpperCase == false && Number == true && Symbol == true {
 		Scramble(Length, lower, number, symbol)
+	}
+	
+	if LowerCase == true && UpperCase == true && Number == true && Symbol == true {
+		Scramble(Length, lower, number, upper,symbol)
 	}
 }
 
