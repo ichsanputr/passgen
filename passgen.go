@@ -1,7 +1,6 @@
 package passgen
 
 import (
-	"math"
 	"math/rand"
 	"strings"
 	"time"
@@ -23,36 +22,53 @@ func init() {
 }
 
 func Scramble(n int, r ...[]rune) {
-	s := float64(n / len(r))
-	// var x int
 
-	// switch n{
-	// case 1:
+	for _,s := range r {
+		b := string(s)
+		var a string
+		for i := 0; i < len(b); i++ {
+			if strings.Contains(b, string(b[rand.Intn(len(b))])) == true {
+				i--
+				continue
+			}
+			a += string(b[rand.Intn(len(b))])
+		}
+		myrune = append(myrune, []rune(a))
+	}
 
-	// }
+	s := (n - (n % len(myrune))) / len(myrune)
+	residu := n % len(myrune)
 
 	// membagi rune ke ex secara rata
-	for _, v := range r {
-		// n == genap
+	for _, v := range myrune {
+		// n == even
 		if n%2 == 0 {
-			if n % len(r) == 1{
-			   // for 8,3 & 10,4 & 6,4
-				for i := 0; i < n/len(r); i++ {
+			if n % len(myrune) > 0 {
+				// for 8,3 & 10,4 & 6,4
+				for i := 0; i < s; i++ {
 					ex += string(v[rand.Intn(len(v))])
+					if residu == n % len(myrune) - 1{
+						continue
+					}
+
+					if residu != 0 {
+						ex += string(v[rand.Intn(len(v))])
+						residu--
+					}
 				}
-			}else if n % len(r) == 0{
+			} else if n%len(myrune) == 0 {
 				// for 2,2 & 4,4 & 4,2 & 6,3 & 12,3
-				for i := 0; i < n/len(r); i++ {
+				for i := 0; i < n/len(myrune); i++ {
 					ex += string(v[rand.Intn(len(v))])
 				}
-			}else if n < len(r){
+			} else if n < len(myrune) {
 
 			}
-		// n == ganjil 
+			// n == odd
 		} else {
-			for i := 1; i <= int(math.Round(s)); i++ {
-				ex += string(v[rand.Intn(len(v))])
-			}
+			// for i := 1; i <= int(math.Round(s)); i++ {
+			// 	ex += string(v[rand.Intn(len(v))])
+			// }
 		}
 	}
 
@@ -65,6 +81,7 @@ func Scramble(n int, r ...[]rune) {
 		}
 		password += string(ex[a])
 	}
+
 }
 
 func Lowercase(n int) string {
@@ -131,9 +148,9 @@ func OptionLower(Length int, LowerCase bool, UpperCase bool, Number bool, Symbol
 	if LowerCase == true && UpperCase == false && Number == true && Symbol == true {
 		Scramble(Length, lower, number, symbol)
 	}
-	
+
 	if LowerCase == true && UpperCase == true && Number == true && Symbol == true {
-		Scramble(Length, lower, number, upper,symbol)
+		Scramble(Length, lower, number, upper, symbol)
 	}
 }
 
