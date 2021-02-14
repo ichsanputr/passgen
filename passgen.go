@@ -1,6 +1,7 @@
 package passgen
 
 import (
+	"fmt"
 	"math/rand"
 	"strings"
 	"time"
@@ -27,37 +28,27 @@ func Scramble(n int, r ...[]rune) {
 		r[i] , r[j] = r[j], r[i]
 	})
 
-	//declaration variable 
+	// declaration variable 
 	s := (n - (n % len(r))) / len(r)
 	residu := n % len(r)
 
-	// membagi rune ke ex secara rata
-	for _, v := range r {
-		// n == even
-		if n%2 == 0 {
-			if n % len(r) > 0 {
-				// for 8,3 & 10,4 & 6,4
-				for i := 0; i < s; i++ {
-					ex += string(v[rand.Intn(len(v))])
+	// divide rune to ex evenly
+	for _,v := range r {
+		if n % len(r) > 0 {
+			// for 8,3 & 11,4 & 6,4 & 9,4
+			for i := 0; i < s; i++ {
+				ex += string(v[rand.Intn(len(v))])
 
-					if residu != 0 && i == 0 {
-						ex += string(v[rand.Intn(len(v))])
-						residu--
-					}
-				}
-			} else if n%len(r) == 0 {
-				// for 2,2 & 4,4 & 4,2 & 6,3 & 12,3
-				for i := 0; i < n/len(r); i++ {
+				if residu != 0 && i == 0 {
 					ex += string(v[rand.Intn(len(v))])
+					residu--
 				}
-			} else if n < len(r) {
-
 			}
-			// n == odd
-		} else {
-			// for i := 1; i <= int(math.Round(s)); i++ {
-			// 	ex += string(v[rand.Intn(len(v))])
-			// }
+		} else if n % len(r) == 0 {
+			// for  & 9,3 & 4,2 & 15,3 & 12,3
+			for i := 0; i < n/len(r); i++ {
+					ex += string(v[rand.Intn(len(v))])
+			}
 		}
 	}
 
@@ -144,6 +135,12 @@ func OptionLower(Length int, LowerCase bool, UpperCase bool, Number bool, Symbol
 
 func Make(Length int, LowerCase bool, UpperCase bool, Number bool, Symbol bool) string {
 
+	// validate input
+	if err := ValidatePass(Length, LowerCase, UpperCase, Number, Symbol); err != nil{
+		fmt.Println(err.Error()) // Error() for display error string in errors.New()
+	}
+
+	// check condition
 	if LowerCase == true && UpperCase == false && Number == false && Symbol == false {
 		password = Lowercase(Length)
 	} else if LowerCase == false && UpperCase == true && Number == false && Symbol == false {
