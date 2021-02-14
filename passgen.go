@@ -9,7 +9,6 @@ import (
 var (
 	password string
 	ex       string
-	myrune   []rune
 	lower    = []rune("abcdefghijklmnopqrstuvwxyz")
 	upper    = []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 	number   = []rune("0123456789")
@@ -23,45 +22,35 @@ func init() {
 
 func Scramble(n int, r ...[]rune) {
 
-	for _,s := range r {
-		b := string(s)
-		var a string
-		for i := 0; i < len(b); i++ {
-			if strings.Contains(b, string(b[rand.Intn(len(b))])) == true {
-				i--
-				continue
-			}
-			a += string(b[rand.Intn(len(b))])
-		}
-		myrune = append(myrune, []rune(a))
-	}
+	// rand array rune r
+	rand.Shuffle(len(r),func(i,j int){
+		r[i] , r[j] = r[j], r[i]
+	})
 
-	s := (n - (n % len(myrune))) / len(myrune)
-	residu := n % len(myrune)
+	//declaration variable 
+	s := (n - (n % len(r))) / len(r)
+	residu := n % len(r)
 
 	// membagi rune ke ex secara rata
-	for _, v := range myrune {
+	for _, v := range r {
 		// n == even
 		if n%2 == 0 {
-			if n % len(myrune) > 0 {
+			if n % len(r) > 0 {
 				// for 8,3 & 10,4 & 6,4
 				for i := 0; i < s; i++ {
 					ex += string(v[rand.Intn(len(v))])
-					if residu == n % len(myrune) - 1{
-						continue
-					}
 
-					if residu != 0 {
+					if residu != 0 && i == 0 {
 						ex += string(v[rand.Intn(len(v))])
 						residu--
 					}
 				}
-			} else if n%len(myrune) == 0 {
+			} else if n%len(r) == 0 {
 				// for 2,2 & 4,4 & 4,2 & 6,3 & 12,3
-				for i := 0; i < n/len(myrune); i++ {
+				for i := 0; i < n/len(r); i++ {
 					ex += string(v[rand.Intn(len(v))])
 				}
-			} else if n < len(myrune) {
+			} else if n < len(r) {
 
 			}
 			// n == odd
@@ -81,7 +70,6 @@ func Scramble(n int, r ...[]rune) {
 		}
 		password += string(ex[a])
 	}
-
 }
 
 func Lowercase(n int) string {
