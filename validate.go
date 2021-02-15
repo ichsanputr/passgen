@@ -2,9 +2,8 @@ package passgen
 
 import "errors"
 
-var (
-	count int
-)
+var (count int)
+
 func ValidatePass(input int,l bool,u bool,n bool,s bool) error {
 	
 	if l {count++}
