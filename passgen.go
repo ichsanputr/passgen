@@ -103,7 +103,7 @@ func Symbols(n int) string {
 	return string(data)
 }
 
-func OptionLower(Length int, LowerCase bool, UpperCase bool, Number bool, Symbol bool) {
+func Option(Length int, LowerCase bool, UpperCase bool, Number bool, Symbol bool) {
 	if LowerCase == true && UpperCase == true && Number == false && Symbol == false {
 		Scramble(Length, lower, upper)
 	}
@@ -151,7 +151,7 @@ func Make(Length int, LowerCase bool, UpperCase bool, Number bool, Symbol bool) 
 		password = Symbols(Length)
 	}
 
-	OptionLower(Length, LowerCase, UpperCase, Number, Symbol)
+	Option(Length, LowerCase, UpperCase, Number, Symbol)
 
 	return password
 }
