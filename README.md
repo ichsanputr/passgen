@@ -10,5 +10,6 @@ Password Format:
 ## How To Use 👌
 ```go
 go get github.com/ichsanputr/passgen
+passgen.Make(length int,loweracse bool,uppercase bool,number bool,symbol bool)
 ```
 ![passgen](https://i.ibb.co/m0kHCvt/passgen.png)
