@@ -24,17 +24,17 @@ func init() {
 func Scramble(n int, r ...[]rune) {
 
 	// rand array rune r
-	rand.Shuffle(len(r),func(i,j int){
-		r[i] , r[j] = r[j], r[i]
+	rand.Shuffle(len(r), func(i, j int) {
+		r[i], r[j] = r[j], r[i]
 	})
 
-	// declaration variable 
+	// declaration variable
 	s := (n - (n % len(r))) / len(r)
 	residu := n % len(r)
 
 	// divide rune to ex evenly
-	for _,v := range r {
-		if n % len(r) > 0 {
+	for _, v := range r {
+		if n%len(r) > 0 {
 			// for 8,3 & 11,4 & 6,4 & 9,4
 			for i := 0; i < s; i++ {
 				ex += string(v[rand.Intn(len(v))])
@@ -44,10 +44,10 @@ func Scramble(n int, r ...[]rune) {
 					residu--
 				}
 			}
-		} else if n % len(r) == 0 {
+		} else if n%len(r) == 0 {
 			// for  & 9,3 & 4,2 & 15,3 & 12,3
 			for i := 0; i < n/len(r); i++ {
-					ex += string(v[rand.Intn(len(v))])
+				ex += string(v[rand.Intn(len(v))])
 			}
 		}
 	}
@@ -136,7 +136,7 @@ func Option(Length int, LowerCase bool, UpperCase bool, Number bool, Symbol bool
 func Make(Length int, LowerCase bool, UpperCase bool, Number bool, Symbol bool) string {
 
 	// validate input
-	if err := ValidatePass(Length, LowerCase, UpperCase, Number, Symbol); err != nil{
+	if err := ValidatePass(Length, LowerCase, UpperCase, Number, Symbol); err != nil {
 		fmt.Println(err.Error()) // Error() for display error string in errors.New()
 	}
 
